@@ -247,7 +247,11 @@ body {
     transition: opacity var(--transition);
 }
 
-/* O JavaScript aplica essa classe para esconder o Modal */
+/* O JavaScript aplica essa classe para esconder o Modal e Botoes */
+.hidden {
+    display: none !important;
+}
+
 .modal.hidden {
     opacity: 0;
     pointer-events: none; /* Desabilita cliques na tela escondida */

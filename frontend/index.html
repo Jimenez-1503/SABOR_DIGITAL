@@ -13,12 +13,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Cabeçalho Principal (Navbar) -->
     <header class="navbar">
-        <div class="container">
-            <h1>Sabor <span>Digital</span></h1>
-            <!-- Botão que abrirá o modal para inserir um novo produto -->
-            <button id="btn-novo-produto" class="btn primary">Novo Produto</button>
+        <div class="container" style="display: flex; gap: 15px; align-items: center;">
+            <h1 style="flex-grow: 1;">Sabor <span>Digital</span></h1>
+            
+            <!-- Botão que abrirá o modal para inserir um novo produto (oculto por padrão) -->
+            <button id="btn-novo-produto" class="btn primary hidden">Novo Produto</button>
+            
+            <!-- Botões de Autenticação -->
+            <button id="btn-login" class="btn secondary">Entrar</button>
+            <button id="btn-registrar" class="btn secondary" style="background-color: var(--accent-success); border: none;">Registrar</button>
+            <button id="btn-logout" class="btn danger hidden">Sair</button>
         </div>
     </header>
 
@@ -84,6 +89,55 @@
                 
                 <!-- Botão que aciona o evento 'submit' do formulário -->
                 <button type="submit" class="btn secondary">Salvar</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de Login -->
+    <div id="modal-login" class="modal hidden">
+        <div class="modal-content">
+            <span class="close-btn" id="close-login-btn">&times;</span>
+            <h2>Acesso Restrito</h2>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="login-email">E-mail</label>
+                    <input type="email" id="login-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-senha">Senha</label>
+                    <input type="password" id="login-senha" required>
+                </div>
+                <button type="submit" class="btn primary">Entrar</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de Registro -->
+    <div id="modal-registrar" class="modal hidden">
+        <div class="modal-content">
+            <span class="close-btn" id="close-registrar-btn">&times;</span>
+            <h2>Criar Conta</h2>
+            <form id="registrar-form">
+                <div class="form-group">
+                    <label for="reg-nome">Nome Completo</label>
+                    <input type="text" id="reg-nome" required>
+                </div>
+                <div class="form-group">
+                    <label for="reg-email">E-mail</label>
+                    <input type="email" id="reg-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="reg-senha">Senha</label>
+                    <input type="password" id="reg-senha" required>
+                </div>
+                <div class="form-group">
+                    <label for="reg-papel">Tipo de Conta</label>
+                    <select id="reg-papel" style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #ccc;">
+                        <option value="cliente">Cliente (Padrão)</option>
+                        <option value="admin">Administrador</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn" style="background-color: var(--accent-success); color: white; width: 100%; padding: 10px; border-radius: 6px; border: none; cursor: pointer;">Cadastrar</button>
             </form>
         </div>
     </div>

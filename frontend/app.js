@@ -12,11 +12,31 @@ const closeBtn = document.querySelector('.close-btn');
 const productForm = document.getElementById('product-form');
 const modalTitle = document.getElementById('modal-title');
 
+// Elementos de Login
+const btnLogin = document.getElementById('btn-login');
+const btnLogout = document.getElementById('btn-logout');
+const modalLogin = document.getElementById('modal-login');
+const closeLoginBtn = document.getElementById('close-login-btn');
+const loginForm = document.getElementById('login-form');
+
+// Elementos de Registro
+const btnRegistrar = document.getElementById('btn-registrar');
+const modalRegistrar = document.getElementById('modal-registrar');
+const closeRegistrarBtn = document.getElementById('close-registrar-btn');
+const registrarForm = document.getElementById('registrar-form');
+
+// Variáveis de estado global (Token JWT e Papel)
+let tokenJWT = localStorage.getItem('token') || null;
+let usuarioPapel = localStorage.getItem('papel') || null;
+
 // ----------------------------------------------------
 // 2. INICIALIZAÇÃO E EVENTOS
 // ----------------------------------------------------
 // Assim que a tela termina de ser montada no navegador, chamamos a função para trazer do BD os produtos.
-document.addEventListener('DOMContentLoaded', carregarProdutos);
+document.addEventListener('DOMContentLoaded', () => {
+    verificarLogin();
+    carregarProdutos();
+});
 
 // Ao clicar no botão 'Novo Produto', chama a função de Abrir o formulário Modal
 btnNovoProduto.addEventListener('click', () => abrirModal());
@@ -32,6 +52,112 @@ productForm.addEventListener('submit', async (e) => {
     e.preventDefault(); // Impede a tela de piscar e apagar os dados preenchidos
     await salvarProduto(); // Envia via Ajax (Fetch API) para o Backend
 });
+
+// ----------------------------------------------------
+// EVENTOS DE LOGIN
+// ----------------------------------------------------
+btnLogin.addEventListener('click', () => modalLogin.classList.remove('hidden'));
+closeLoginBtn.addEventListener('click', () => modalLogin.classList.add('hidden'));
+btnLogout.addEventListener('click', () => fazerLogout());
+
+btnRegistrar.addEventListener('click', () => modalRegistrar.classList.remove('hidden'));
+closeRegistrarBtn.addEventListener('click', () => modalRegistrar.classList.add('hidden'));
+
+loginForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    await fazerLogin();
+});
+
+registrarForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    await fazerRegistro();
+});
+
+// ----------------------------------------------------
+// 2.5 FUNÇÕES DE AUTENTICAÇÃO
+// ----------------------------------------------------
+function verificarLogin() {
+    if (tokenJWT && usuarioPapel === 'admin') {
+        btnNovoProduto.classList.remove('hidden');
+        btnLogout.classList.remove('hidden');
+        btnLogin.classList.add('hidden');
+        btnRegistrar.classList.add('hidden');
+    } else {
+        btnNovoProduto.classList.add('hidden');
+        btnLogout.classList.add('hidden');
+        btnLogin.classList.remove('hidden');
+        btnRegistrar.classList.remove('hidden');
+    }
+}
+
+async function fazerLogin() {
+    const email = document.getElementById('login-email').value;
+    const senha = document.getElementById('login-senha').value;
+    
+    try {
+        const response = await fetch(`${API_URL}/auth/login`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, senha })
+        });
+        
+        const data = await response.json();
+        
+        if (data.sucesso) {
+            tokenJWT = data.token;
+            usuarioPapel = data.usuario.papel;
+            localStorage.setItem('token', tokenJWT);
+            localStorage.setItem('papel', usuarioPapel);
+            
+            modalLogin.classList.add('hidden');
+            loginForm.reset();
+            verificarLogin();
+            carregarProdutos(); // recarrega para mostrar os botões de edição
+        } else {
+            alert("Erro de Login: " + (data.mensagem || "Credenciais inválidas"));
+        }
+    } catch (err) {
+        alert("Falha na comunicação com o servidor.");
+    }
+}
+
+function fazerLogout() {
+    tokenJWT = null;
+    usuarioPapel = null;
+    localStorage.removeItem('token');
+    localStorage.removeItem('papel');
+    verificarLogin();
+    carregarProdutos(); // recarrega para esconder os botões de edição
+}
+
+async function fazerRegistro() {
+    const nome = document.getElementById('reg-nome').value;
+    const email = document.getElementById('reg-email').value;
+    const senha = document.getElementById('reg-senha').value;
+    const papel = document.getElementById('reg-papel').value;
+    
+    try {
+        const response = await fetch(`${API_URL}/auth/registrar`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ nome, email, senha, papel })
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok || data.sucesso) {
+            alert("Conta criada com sucesso! Você já pode fazer login.");
+            modalRegistrar.classList.add('hidden');
+            registrarForm.reset();
+            // Opcional: já abrir o modal de login automaticamente
+            modalLogin.classList.remove('hidden');
+        } else {
+            alert("Erro ao registrar: " + (data.mensagem || data.erro || "Falha no cadastro"));
+        }
+    } catch (err) {
+        alert("Falha na comunicação com o servidor.");
+    }
+}
 
 // ----------------------------------------------------
 // 3. FUNÇÃO: LISTAR PRODUTOS (GET)
@@ -80,6 +206,17 @@ function renderizarProdutos(produtos) {
         // Formata o Preço (número) para o padrão R$ 00,00 da moeda brasileira
         const precoFormatado = Number(produto.preco).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
+        // Só renderiza botões de edição se for admin logado
+        let actionsHtml = '';
+        if (tokenJWT && usuarioPapel === 'admin') {
+            actionsHtml = `
+                <div class="card-actions">
+                    <button class="btn edit" onclick="editarProduto(${produto.id})">Editar</button>
+                    <button class="btn danger" onclick="excluirProduto(${produto.id})">Excluir</button>
+                </div>
+            `;
+        }
+
         // Montamos o design do card mesclando texto estático HTML com as variáveis do JS
         card.innerHTML = `
             <div class="card-img-container">
@@ -89,11 +226,7 @@ function renderizarProdutos(produtos) {
                 <h3 class="card-title">${produto.nome}</h3>
                 <p class="card-desc">${produto.descricao}</p>
                 <div class="card-price">${precoFormatado}</div>
-                <div class="card-actions">
-                    <!-- Os botões injetam direto a função JS passando o id de argumento para o clique -->
-                    <button class="btn edit" onclick="editarProduto(${produto.id})">Editar</button>
-                    <button class="btn danger" onclick="excluirProduto(${produto.id})">Excluir</button>
-                </div>
+                ${actionsHtml}
             </div>
         `;
         productsGrid.appendChild(card); // Insere a caixinha HTML criada no final da tela
@@ -169,6 +302,9 @@ async function salvarProduto() {
     try {
         const response = await fetch(url, {
             method: method,
+            headers: {
+                'Authorization': `Bearer ${tokenJWT}`
+            },
             body: formData // Não precisa de "Content-Type", o fetch bota automático pelo FormData para multipart.
         });
 
@@ -211,7 +347,10 @@ window.excluirProduto = async function(id) {
     if (confirm("Tem certeza que deseja excluir este produto?")) {
         try {
             const response = await fetch(`${API_URL}/produtos/${id}`, {
-                method: 'DELETE'
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${tokenJWT}`
+                }
             });
             if (response.ok) {
                 carregarProdutos(); // Se der sucesso, recarrega a grid limpando a foto e os dados mortos
