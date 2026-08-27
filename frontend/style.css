@@ -1,189 +1,210 @@
-/* 
- * 1. VARIÁVEIS GLOBAIS (:root)
- * Aqui definimos as cores e padrões que reutilizaremos em todo o código.
- * Se precisar mudar o tom de azul da marca, você só muda aqui e afetará o site todo.
- */
+/* ==========================================================================
+   1. VARIÁVEIS GLOBAIS E RESET
+   ========================================================================== */
 :root {
-    --primary-blue: #0A2342;     /* Azul Escuro Principal */
-    --secondary-blue: #173b6c;   /* Azul Escuro Secundário (para hover) */
-    --accent-orange: #FF7F11;    /* Laranja Vivo (Botões de destaque) */
-    --accent-orange-hover: #e06c0b; /* Laranja para o efeito ao passar o mouse */
-    --bg-light: #F4F7F6;         /* Cor de fundo cinza bem claro */
-    --card-bg: #FFFFFF;          /* Fundo branco dos cartões */
-    --text-main: #333333;        /* Cor do texto principal (quase preto) */
-    --text-muted: #666666;       /* Cor de texto secundária (cinza) */
-    --transition: 0.3s ease;     /* Padrão para animações suaves de transição */
+    --primary: #0f172a;           /* Slate 900 */
+    --primary-light: #1e293b;     /* Slate 800 */
+    --accent: #f97316;            /* Laranja moderno (Orange 500) */
+    --accent-hover: #ea580c;      /* Orange 600 */
+    --accent-success: #10b981;    /* Emerald 500 */
+    --accent-success-hover: #059669;
+    --danger: #ef4444;            /* Red 500 */
+    --danger-hover: #dc2626;
+    --edit: #3b82f6;              /* Blue 500 */
+    --edit-hover: #2563eb;
+    
+    --bg-main: #f8fafc;           /* Slate 50 */
+    --card-bg: #ffffff;
+    --text-main: #0f172a;
+    --text-muted: #64748b;        /* Slate 500 */
+    --border-color: #e2e8f0;
+    
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+    --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+    
+    --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Reset Básico: Tira margens padrões do navegador para que os estilos não quebrem */
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box; /* O padding/border não aumenta a largura da caixa */
-    font-family: 'Inter', sans-serif;
+    box-sizing: border-box;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
 body {
-    background-color: var(--bg-light);
+    background-color: var(--bg-main);
     color: var(--text-main);
+    line-height: 1.5;
+    min-height: 100vh;
 }
 
-/* Define a largura máxima do layout (Centraliza a página em telas grandes) */
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 24px;
 }
 
-/* =========================================
+/* ==========================================================================
    2. CABEÇALHO (NAVBAR)
-   ========================================= */
+   ========================================================================== */
 .navbar {
-    background-color: var(--primary-blue);
-    padding: 20px 0;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave para dar sensação de altura */
+    background-color: var(--primary);
+    padding: 16px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--shadow-md);
 }
 
 .navbar .container {
     display: flex;
-    justify-content: space-between; /* Espalha a logo de um lado e o botão pro outro */
+    justify-content: space-between;
     align-items: center;
 }
 
 .navbar h1 {
-    color: #FFF;
-    font-size: 24px;
+    color: #ffffff;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
 }
 
-/* Palavra 'Digital' colorida de Laranja */
 .navbar h1 span {
-    color: var(--accent-orange);
+    color: var(--accent);
 }
 
-/* =========================================
-   3. BOTÕES (Design System)
-   ========================================= */
+/* ==========================================================================
+   3. BOTÕES (SYSTEM DESIGN)
+   ========================================================================== */
 .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     padding: 10px 20px;
     border: none;
-    border-radius: 8px; /* Cantos arredondados */
-    font-size: 16px;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
     font-weight: 600;
     cursor: pointer;
-    transition: var(--transition); /* Usa aquela regra padrão de 0.3segundos para tudo */
+    transition: var(--transition);
+    outline: none;
 }
 
-/* Botão principal em laranja */
+.btn:active {
+    transform: scale(0.98);
+}
+
 .btn.primary {
-    background-color: var(--accent-orange);
-    color: #FFF;
+    background-color: var(--accent);
+    color: #ffffff;
 }
-
-/* Ao passar o mouse: afunda levemente a cor e sobe (translada 2px) o botão */
 .btn.primary:hover {
-    background-color: var(--accent-orange-hover);
-    transform: translateY(-2px);
+    background-color: var(--accent-hover);
+    box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
 }
 
-/* Botão Secundário em Azul escuro */
 .btn.secondary {
-    background-color: var(--primary-blue);
-    color: #FFF;
-    width: 100%;
-    margin-top: 10px;
+    background-color: var(--primary-light);
+    color: #ffffff;
 }
 .btn.secondary:hover {
-    background-color: var(--secondary-blue);
+    background-color: #334155;
 }
 
-/* Botões menores nos cartões (Ações) */
 .btn.danger {
-    background-color: #e74c3c; /* Vermelho padrão para perigo */
-    color: #FFF;
-    padding: 8px 12px;
-    font-size: 14px;
+    background-color: var(--danger);
+    color: #ffffff;
 }
 .btn.danger:hover {
-    background-color: #c0392b;
+    background-color: var(--danger-hover);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
 }
 
 .btn.edit {
-    background-color: #3498db; /* Azul claro padrão de edição */
-    color: #FFF;
-    padding: 8px 12px;
-    font-size: 14px;
+    background-color: var(--edit);
+    color: #ffffff;
 }
 .btn.edit:hover {
-    background-color: #2980b9;
+    background-color: var(--edit-hover);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
 }
 
-/* =========================================
-   4. SISTEMA DE GRADE (Grid)
-   ========================================= */
+/* Ajuste específico para o formulário */
+#product-form button[type="submit"] {
+    width: 100%;
+    margin-top: 10px;
+    padding: 12px;
+    background-color: var(--accent);
+}
+#product-form button[type="submit"]:hover {
+    background-color: var(--accent-hover);
+}
+
+/* ==========================================================================
+   4. GRADE DE PRODUTOS (GRID)
+   ========================================================================== */
 .products-section {
-    padding: 40px 0;
+    padding: 48px 0;
 }
 
 .products-section h2 {
-    color: var(--primary-blue);
-    margin-bottom: 25px;
-    font-size: 28px;
+    color: var(--primary);
+    margin-bottom: 32px;
+    font-size: 30px;
+    font-weight: 700;
     text-align: center;
+    letter-spacing: -0.5px;
 }
 
-/* CSS Grid cria a grade com as três colunas iguais */
 .grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 colunas de 1 fração cada */
-    gap: 30px; /* Espaçamento entre os produtos */
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 28px;
 }
 
-/* RESPONSIVIDADE: Em tablets (até 900px), a grade vira 2 colunas */
-@media (max-width: 900px) {
-    .grid { grid-template-columns: repeat(2, 1fr); }
-}
-
-/* RESPONSIVIDADE: Em celulares (até 600px), a grade vira 1 coluna de ponta a ponta */
-@media (max-width: 600px) {
-    .grid { grid-template-columns: 1fr; }
-}
-
-/* =========================================
-   5. CARTÃO DO PRODUTO (Card)
-   ========================================= */
+/* ==========================================================================
+   5. CARTÃO DO PRODUTO (CARD)
+   ========================================================================== */
 .card {
     background-color: var(--card-bg);
-    border-radius: 12px;
-    overflow: hidden; /* Corta a imagem se ela tentar sair do arredondamento */
-    box-shadow: 0 10px 20px rgba(0,0,0,0.05); /* Sombreamento moderno e difuso */
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
     transition: var(--transition);
     display: flex;
-    flex-direction: column; /* Coloca Imagem, Título e Preço um debaixo do outro */
+    flex-direction: column;
 }
 
-/* Efeito Flutuante: Sobe 5px a caixa quando passa o mouse */
 .card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 25px rgba(0,0,0,0.1);
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-lg);
+    border-color: transparent;
 }
 
 .card-img-container {
     width: 100%;
-    height: 200px;
-    background-color: #eaeaea; /* Fundo cinza para caso a imagem não carregue */
+    height: 210px;
+    background-color: #f1f5f9;
     overflow: hidden;
+    position: relative;
 }
 
 .card-img-container img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Faz a foto "preencher" todo o retângulo sem esmagar as proporções */
-    transition: transform var(--transition);
+    object-fit: cover;
+    transition: transform 0.5s ease;
 }
 
-/* Efeito de zoom da imagem dentro do cartao no hover */
 .card:hover .card-img-container img {
-    transform: scale(1.05); 
+    transform: scale(1.08);
 }
 
 .card-img-placeholder {
@@ -194,11 +215,12 @@ body {
     justify-content: center;
     color: var(--text-muted);
     font-size: 14px;
+    font-weight: 500;
 }
 
 .card-content {
     padding: 20px;
-    flex-grow: 1; /* Estica a área do texto para jogar os botões para o chão da caixa */
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
 }
@@ -206,134 +228,177 @@ body {
 .card-title {
     font-size: 18px;
     font-weight: 700;
-    color: var(--primary-blue);
-    margin-bottom: 10px;
+    color: var(--primary);
+    margin-bottom: 8px;
 }
 
 .card-desc {
     font-size: 14px;
     color: var(--text-muted);
-    margin-bottom: 15px;
-    flex-grow: 1; /* Empurra o preço lá pra baixo caso as descrições tenham tamanhos desiguais */
+    margin-bottom: 20px;
+    flex-grow: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .card-price {
     font-size: 22px;
     font-weight: 700;
-    color: var(--accent-orange);
-    margin-bottom: 15px;
+    color: var(--accent);
+    margin-bottom: 16px;
 }
 
 .card-actions {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: 10px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border-color);
 }
 
-/* =========================================
-   6. JANELA MODAL (Pop-up do Formulário)
-   ========================================= */
+.card-actions .btn {
+    width: 100%;
+}
+
+/* ==========================================================================
+   6. MODAL (POP-UP)
+   ========================================================================== */
 .modal {
-    position: fixed; /* Fica travada na tela mesmo se der scroll */
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(10, 35, 66, 0.7); /* Fundo da tela em azul escuro transparente */
+    background-color: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(4px);
     display: flex;
-    align-items: center; /* Centraliza a caixinha horizontal e verticalmente */
+    align-items: center;
     justify-content: center;
-    z-index: 1000; /* Fica na frente de absolutamente tudo na página */
+    z-index: 1000;
     opacity: 1;
     transition: opacity var(--transition);
+    padding: 20px;
 }
 
-/* O JavaScript aplica essa classe para esconder o Modal e Botoes */
 .hidden {
     display: none !important;
 }
 
 .modal.hidden {
     opacity: 0;
-    pointer-events: none; /* Desabilita cliques na tela escondida */
+    pointer-events: none;
 }
 
 .modal-content {
     background-color: var(--card-bg);
-    padding: 30px;
-    border-radius: 12px;
+    padding: 32px;
+    border-radius: var(--radius-lg);
     width: 100%;
-    max-width: 500px;
+    max-width: 480px;
     position: relative;
-    transform: translateY(0);
+    box-shadow: var(--shadow-lg);
+    transform: scale(1);
     transition: transform var(--transition);
 }
 
-/* Animação que faz a janela do modal parecer subir e desaparecer */
 .modal.hidden .modal-content {
-    transform: translateY(-20px);
+    transform: scale(0.95);
 }
 
 .close-btn {
     position: absolute;
-    top: 15px;
-    right: 20px;
+    top: 20px;
+    right: 24px;
     font-size: 24px;
     cursor: pointer;
     color: var(--text-muted);
+    transition: var(--transition);
+    line-height: 1;
 }
+
 .close-btn:hover {
-    color: #e74c3c;
+    color: var(--danger);
 }
 
 .modal-content h2 {
-    color: var(--primary-blue);
-    margin-bottom: 20px;
+    color: var(--primary);
+    margin-bottom: 24px;
+    font-size: 22px;
+    font-weight: 700;
 }
 
-/* =========================================
-   7. ESTILOS DO FORMULÁRIO (Inputs)
-   ========================================= */
+/* ==========================================================================
+   7. FORMULÁRIOS
+   ========================================================================== */
 .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 18px;
 }
 
 .form-group label {
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 6px;
     font-weight: 600;
-    color: var(--primary-blue);
-    font-size: 14px;
+    color: var(--primary);
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .form-group input[type="text"],
 .form-group input[type="number"],
+.form-group input[type="email"],
+.form-group input[type="password"],
 .form-group textarea,
-.form-group input[type="file"] {
+.form-group select {
     width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
+    padding: 11px 14px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
     outline: none;
-    transition: border var(--transition);
+    transition: var(--transition);
     font-size: 14px;
+    background-color: #f8fafc;
+    color: var(--text-main);
 }
 
-/* Ao clicar para digitar (Focus), pinta as bordas de laranja */
 .form-group input:focus,
-.form-group textarea:focus {
-    border-color: var(--accent-orange);
+.form-group textarea:focus,
+.form-group select:focus {
+    border-color: var(--accent);
+    background-color: #ffffff;
+    box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.15);
 }
 
 .form-group textarea {
-    resize: vertical; /* Permite puxar a caixa apenas pra cima e pra baixo */
-    min-height: 80px;
+    resize: vertical;
+    min-height: 90px;
+}
+
+.form-group input[type="file"] {
+    width: 100%;
+    font-size: 13px;
+    color: var(--text-muted);
 }
 
 .checkbox-group {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
+    margin-top: 10px;
 }
+
+.checkbox-group input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--accent);
+    cursor: pointer;
+}
+
 .checkbox-group label {
     margin-bottom: 0;
+    text-transform: none;
+    font-size: 14px;
+    cursor: pointer;
 }
