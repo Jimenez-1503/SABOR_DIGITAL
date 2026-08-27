@@ -17,6 +17,9 @@
         <div class="container" style="display: flex; gap: 15px; align-items: center;">
             <h1 style="flex-grow: 1;">Sabor <span>Digital</span></h1>
             
+            <!-- Elemento para exibir o nome do usuário logado -->
+            <span id="user-greeting" class="user-greeting hidden"></span>
+
             <!-- Botão que abrirá o modal para inserir um novo produto (oculto por padrão) -->
             <button id="btn-novo-produto" class="btn primary hidden">Novo Produto</button>
             
@@ -41,7 +44,6 @@
     </main>
 
     <!-- Modal Form (A Janela Pop-up flutuante) -->
-    <!-- Começa com a classe 'hidden' para não aparecer até clicarmos no botão -->
     <div id="modal" class="modal hidden">
         <div class="modal-content">
             <!-- Botão 'X' de fechar a janela -->
@@ -67,7 +69,6 @@
                 
                 <div class="form-group">
                     <label for="preco">Preço (R$)</label>
-                    <!-- Campo numérico com precisão decimal (aceita centavos) -->
                     <input type="number" step="0.01" id="preco" required>
                 </div>
                 
@@ -78,7 +79,6 @@
                 
                 <div class="form-group">
                     <label for="imagem">Imagem</label>
-                    <!-- Campo para fazer upload (accept restringe para mostrar apenas imagens) -->
                     <input type="file" id="imagem" accept="image/jpeg, image/png, image/jpg">
                 </div>
                 
@@ -143,7 +143,6 @@
     </div>
 
     <!-- Importação do arquivo de lógica JavaScript -->
-    <!-- O script deve estar no final do body para carregar depois que os elementos HTML existirem -->
     <script src="app.js"></script>
 </body>
 </html>

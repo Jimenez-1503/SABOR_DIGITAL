@@ -79,6 +79,16 @@ body {
     color: var(--accent);
 }
 
+.user-greeting {
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 14px;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 6px 14px;
+    border-radius: var(--radius-sm);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
 /* ==========================================================================
    3. BOTÕES (SYSTEM DESIGN)
    ========================================================================== */
@@ -135,7 +145,6 @@ body {
     box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
 }
 
-/* Ajuste específico para o formulário */
 #product-form button[type="submit"] {
     width: 100%;
     margin-top: 10px;
@@ -239,6 +248,7 @@ body {
     flex-grow: 1;
     display: -webkit-box;
     -webkit-line-clamp: 3;
+    line-clamp: 3; /* <--- Adicione esta linha */
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
