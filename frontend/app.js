@@ -348,3 +348,32 @@ window.excluirProduto = async function(id) {
         }
     }
 }
+
+// ----------------------------------------------------
+// 9. FUNÇÃO: RELÓGIO COM DATA EM TEMPO REAL
+// ----------------------------------------------------
+function atualizarHorario() {
+  const relogioEl = document.getElementById('relogio');
+  if (!relogioEl) return;
+
+  const agora = new Date();
+  
+  // Formata hora (ex: 12:41:52)
+  const horaFormatada = agora.toLocaleTimeString('pt-BR');
+  
+  // Formata data (ex: Qui, 27 de Ago)
+  const dataFormatada = agora.toLocaleDateString('pt-BR', {
+    weekday: 'short',
+    day: '2-digit',
+    month: 'short'
+  }).replace('.', '');
+
+  relogioEl.innerHTML = `
+    <span style="opacity: 0.7; margin-right: 6px;"</span>
+    <span>${dataFormatada} <strong>${horaFormatada}</strong></span>
+  `;
+}
+
+// Atualiza a cada 1 segundo (1000ms)
+setInterval(atualizarHorario, 1000);
+atualizarHorario();

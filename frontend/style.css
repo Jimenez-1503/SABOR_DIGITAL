@@ -62,21 +62,29 @@ body {
     box-shadow: var(--shadow-md);
 }
 
-.navbar .container {
+.navbar-content {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
 }
 
-.navbar h1 {
+.logo {
     color: #ffffff;
     font-size: 22px;
     font-weight: 700;
     letter-spacing: -0.5px;
+    flex: 1;
 }
 
-.navbar h1 span {
+.logo span {
     color: var(--accent);
+}
+
+/* Envolvente do centro para manter a saudação centralizada */
+.user-greeting-wrapper {
+    flex: 1;
+    display: flex;
+    justify-content: center;
 }
 
 .user-greeting {
@@ -84,9 +92,39 @@ body {
     font-weight: 600;
     font-size: 14px;
     background-color: rgba(255, 255, 255, 0.1);
-    padding: 6px 14px;
+    padding: 6px 16px;
     border-radius: var(--radius-sm);
     border: 1px solid rgba(255, 255, 255, 0.15);
+    white-space: nowrap;
+}
+
+/* Estilização moderna para o container do Relógio */
+.relogio-container {
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.08);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    text-transform: capitalize;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+}
+
+/* Agrupamento dos botões à direita */
+.nav-actions {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 12px;
+}
+
+.btn-register {
+    background-color: var(--accent-success) !important;
+    border: none;
 }
 
 /* ==========================================================================
@@ -248,7 +286,7 @@ body {
     flex-grow: 1;
     display: -webkit-box;
     -webkit-line-clamp: 3;
-    line-clamp: 3; /* <--- Adicione esta linha */
+    line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
@@ -260,16 +298,16 @@ body {
     margin-bottom: 16px;
 }
 
+/* Espaçamento e alinhamento dos botões dos cards */
 .card-actions {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
+    display: flex;
+    gap: 12px;
     padding-top: 12px;
     border-top: 1px solid var(--border-color);
 }
 
 .card-actions .btn {
-    width: 100%;
+    flex: 1;
 }
 
 /* ==========================================================================

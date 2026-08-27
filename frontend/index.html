@@ -14,21 +14,27 @@
 </head>
 <body>
     <header class="navbar">
-        <div class="container" style="display: flex; gap: 15px; align-items: center;">
-            <h1 style="flex-grow: 1;">Sabor <span>Digital</span></h1>
-            
-            <!-- Elemento para exibir o nome do usuário logado -->
+    <div class="container navbar-content">
+        <!-- LADO ESQUERDO: Logo -->
+        <h1 class="logo">Sabor <span>Digital</span></h1>
+        
+        <!-- CENTRO: Nome do Usuário -->
+        <div class="user-greeting-wrapper">
             <span id="user-greeting" class="user-greeting hidden"></span>
+        </div>
 
-            <!-- Botão que abrirá o modal para inserir um novo produto (oculto por padrão) -->
+        <!-- RELÓGIO E DATA -->
+        <div id="relogio" class="relogio-container"></div>
+
+        <!-- LADO DIREITO: Botões de Ação -->
+        <div class="nav-actions">
             <button id="btn-novo-produto" class="btn primary hidden">Novo Produto</button>
-            
-            <!-- Botões de Autenticação -->
             <button id="btn-login" class="btn secondary">Entrar</button>
-            <button id="btn-registrar" class="btn secondary" style="background-color: var(--accent-success); border: none;">Registrar</button>
+            <button id="btn-registrar" class="btn secondary btn-register">Registrar</button>
             <button id="btn-logout" class="btn danger hidden">Sair</button>
         </div>
-    </header>
+    </div>
+</header>
 
     <!-- Conteúdo principal da página -->
     <main class="container">
