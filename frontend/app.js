@@ -76,7 +76,8 @@ registrarForm.addEventListener('submit', async (e) => {
 function verificarLogin() {
     if (tokenJWT) {
         if (usuarioNome) {
-            userGreeting.textContent = `Olá, ${usuarioNome}!`;
+            const saudacao = obterSaudacao();
+            userGreeting.textContent = `${saudacao}, ${usuarioNome}`;
             userGreeting.classList.remove('hidden');
         }
 
@@ -97,7 +98,6 @@ function verificarLogin() {
         btnRegistrar.classList.remove('hidden');
     }
 }
-
 async function fazerLogin() {
     const email = document.getElementById('login-email').value;
     const senha = document.getElementById('login-senha').value;
@@ -377,3 +377,17 @@ function atualizarHorario() {
 // Atualiza a cada 1 segundo (1000ms)
 setInterval(atualizarHorario, 1000);
 atualizarHorario();
+
+function obterSaudacao() {
+    const hora = new Date().getHours();
+    
+    if (hora >= 5 && hora < 12) {
+        return "Bom dia";
+    } else if (hora >= 12 && hora < 18) {
+        return "Boa tarde";
+    } else {
+        return "Boa noite";
+    }
+}
+
+
